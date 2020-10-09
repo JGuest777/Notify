@@ -32,11 +32,20 @@ const App = () => {
     }
   };
 
+  const submitNote = async (data) => {
+    try {
+      const resp = await axios.post(urlFor('notes'), data);
+      setShowNote(false);
+    } catch (error) {
+      console.log('error: ', error);
+    }
+  };
+
   return (
     <div className="App">
       <Nav toggleNote={toggleNote} showNote={showNote} />
       {showNote ? (
-        <Note note={note} />
+        <Note note={note} submitNote={submitNote} />
       ) : (
         <List getNotes={getNotes} notes={notes} getNote={getNote} />
       )}
