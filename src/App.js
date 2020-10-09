@@ -36,7 +36,7 @@ const App = () => {
     <div className="App">
       <Nav toggleNote={toggleNote} showNote={showNote} />
       {showNote ? (
-        <Note />
+        <Note note={note} />
       ) : (
         <List getNotes={getNotes} notes={notes} getNote={getNote} />
       )}
