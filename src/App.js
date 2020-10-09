@@ -1,17 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import Nav from './Components/Nav';
 import List from './Components/List';
 import Note from './Components/Note';
 
-function App() {
+const App = () => {
+  const [showNote, setShowNOte] = useState(false);
+
   return (
     <div className="App">
       <Nav />
-      <List />
-      <Note />
+      {showNote ? <Note /> : <List />}
     </div>
   );
-}
+};
 
 export default App;
