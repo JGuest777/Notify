@@ -8,13 +8,14 @@ import urlFor from './Utils/urlFor';
 
 const App = () => {
   const [showNote, setShowNote] = useState(false);
+  const [notes, setNotes] = useState([]);
 
   const toggleNote = () => setShowNote(!showNote);
 
   const getNotes = async () => {
     try {
       const resp = await axios.get(urlFor('notes'));
-      console.log(resp.data);
+      setNotes(resp.data);
     } catch (err) {
       console.log('error: ', err);
     }
@@ -23,7 +24,7 @@ const App = () => {
   return (
     <div className="App">
       <Nav toggleNote={toggleNote} showNote={showNote} />
-      {showNote ? <Note /> : <List getNotes={getNotes} />}
+      {showNote ? <Note /> : <List getNotes={getNotes} notes={notes} />}
     </div>
   );
 };
