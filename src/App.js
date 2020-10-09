@@ -4,6 +4,7 @@ import Nav from './Components/Nav';
 import List from './Components/List';
 import Note from './Components/Note';
 import axios from 'axios';
+import urlFor from './Utils/urlFor';
 
 const App = () => {
   const [showNote, setShowNote] = useState(false);
@@ -12,11 +13,10 @@ const App = () => {
 
   const getNotes = async () => {
     try {
-      const data = await axios.get('https://note-app-api.herokuapp.com/notes');
-      console.log(data.data);
-      return data;
-    } catch (error) {
-      console.log('error: ', error);
+      const resp = await axios.get(urlFor('notes'));
+      console.log(resp.data);
+    } catch (err) {
+      console.log('error: ', err);
     }
   };
 
