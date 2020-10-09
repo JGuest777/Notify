@@ -32,9 +32,17 @@ const App = () => {
     }
   };
 
-  const submitNote = async (data) => {
+  const handleSubmitRequest = (data, id) => {
+    if (id) {
+      return axios.patch(urlFor(`notes/${id}`), data);
+    } else {
+      return axios.post(urlFor('notes'), data);
+    }
+  };
+
+  const submitNote = async (data, id) => {
     try {
-      const resp = await axios.post(urlFor('notes'), data);
+      handleSubmitRequest(data, id);
       setShowNote(false);
     } catch (error) {
       console.log('error: ', error);

@@ -10,7 +10,7 @@ class Note extends React.Component {
       title,
       content,
     };
-    this.props.submitNote(formData);
+    this.props.submitNote(formData, this.props.note.id);
   }
 
   render() {
