@@ -1,7 +1,6 @@
 import React from 'react';
 
-const Nav = (props) => {
-  const { toggleNote, showNote } = props;
+const Nav = ({ toggleNote, showNote }) => {
   return (
     <div className="nav-container">
       <div className="nav-logo">Note</div>

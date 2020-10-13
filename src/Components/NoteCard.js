@@ -1,8 +1,6 @@
 import React from 'react';
 
-const NoteCard = (props) => {
-  const { note, getNote } = props;
-
+const NoteCard = ({ note, getNote }) => {
   return (
     <div className="note-card-container">
       <div className="note-card-title">{note.title}</div>

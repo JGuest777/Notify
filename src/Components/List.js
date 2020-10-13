@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
 import NoteCard from './NoteCard';
 
-const List = (props) => {
-  const { getNotes, notes, getNote } = props;
-
+const List = ({ getNotes, notes, getNote }) => {
   useEffect(() => {
     getNotes();
   });
