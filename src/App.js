@@ -10,6 +10,7 @@ const App = () => {
   const [showNote, setShowNote] = useState(false);
   const [notes, setNotes] = useState([]);
   const [note, setNote] = useState({});
+  const [newTag, setNewTag] = useState(false);
 
   const toggleNote = () => {
     setShowNote(!showNote);
@@ -54,8 +55,25 @@ const App = () => {
   const deleteNote = async (id) => {
     const newNotesState = notes.filter((note) => note.id !== id);
     try {
-      const resp = await axios.delete(urlFor(`notes/${id}`));
+      await axios.delete(urlFor(`notes/${id}`));
       setNotes(newNotesState);
+    } catch (error) {
+      console.log('error: ', error);
+    }
+  };
+
+  const showTagForm = () => {
+    setNewTag(true);
+  };
+
+  const closeTagForm = () => {
+    setNewTag(false);
+  };
+
+  const submitTag = async (data, noteId) => {
+    try {
+      const resp = await axios.post(urlFor(`notes/${noteId}/tags`), data);
+      setNote(noteId);
     } catch (error) {
       console.log('error: ', error);
     }
@@ -65,7 +83,14 @@ const App = () => {
     <div className="App">
       <Nav toggleNote={toggleNote} showNote={showNote} />
       {showNote ? (
-        <Note note={note} submitNote={submitNote} />
+        <Note
+          note={note}
+          submitNote={submitNote}
+          showTagForm={showTagForm}
+          newTag={newTag}
+          closeTagForm={closeTagForm}
+          submitTag={submitTag}
+        />
       ) : (
         <List
           getNotes={getNotes}
