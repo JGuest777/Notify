@@ -51,12 +51,33 @@ class Note extends React.Component {
     }
   };
 
+  renderTags(note) {
+    if (note.tags) {
+      return note.tags.map((tag, index) => (
+        <div
+          className="tag"
+          key={index}
+          onClick={(e) => this.props.deleteTag(note.id, tag.id)}
+        >
+          <span className="delete">
+            <i className="material-icons">delete</i>
+          </span>
+          {tag.name}
+        </div>
+      ));
+    }
+  }
+
   render() {
-    const { note } = this.props;
+    const { note, closeTagForm } = this.props;
 
     return (
       <div className="note-container">
-        <form className="note-form" onSubmit={(e) => this.onSubmit(e)}>
+        <form
+          className="note-form"
+          onSubmit={(e) => this.onSubmit(e)}
+          onClick={() => closeTagForm()}
+        >
           <input
             className="note-title-input"
             type="text"
@@ -74,6 +95,7 @@ class Note extends React.Component {
         </form>
         <div className="tag-container">
           <div className="tag-button-container">{this.renderTagForm(note)}</div>
+          <div className="tag-list-container">{this.renderTags(note)}</div>
         </div>
       </div>
     );

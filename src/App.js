@@ -72,8 +72,17 @@ const App = () => {
 
   const submitTag = async (data, noteId) => {
     try {
-      const resp = await axios.post(urlFor(`notes/${noteId}/tags`), data);
+      await axios.post(urlFor(`notes/${noteId}/tags`), data);
       setNote(noteId);
+    } catch (error) {
+      console.log('error: ', error);
+    }
+  };
+
+  const deleteTag = async (noteId, id) => {
+    try {
+      await axios.delete(urlFor(`tags/${id}`));
+      getNote(noteId);
     } catch (error) {
       console.log('error: ', error);
     }
@@ -90,6 +99,7 @@ const App = () => {
           newTag={newTag}
           closeTagForm={closeTagForm}
           submitTag={submitTag}
+          deleteTag={deleteTag}
         />
       ) : (
         <List
