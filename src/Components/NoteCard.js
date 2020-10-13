@@ -1,11 +1,11 @@
 import React from 'react';
 
-const NoteCard = ({ note, getNote }) => {
+const NoteCard = ({ note, getNote, deleteNote }) => {
   return (
     <div className="note-card-container">
       <div className="note-card-title">{note.title}</div>
       <div className="note-card-content">{note.content}</div>
-      <span className="note-card-delete">
+      <span className="note-card-delete" onClick={() => deleteNote(note.id)}>
         <i className="material-icons">close</i>
       </span>
       <span className="note-card-edit" onClick={() => getNote(note.id)}>
