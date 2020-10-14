@@ -46,13 +46,19 @@ const App = () => {
     }
   };
 
-  const submitNote = async (data, id) => {
-    try {
-      handleSubmitRequest(data, id);
-      setShowNote(false);
-    } catch (error) {
-      console.log('submitNote: ', error.response);
-    }
+  const submitNote = (data, id) => {
+    handleSubmitRequest(data, id)
+      .then((res) => showNote(false))
+      .catch((err) => {
+        const { errors } = err.response.data;
+        if (errors.content) {
+          console.log('Missing Note Content!');
+          setError('Missing Note Content!');
+        } else if (errors.title) {
+          console.log('Missing Title Content!');
+          setError('Missing Title Content!');
+        }
+      });
   };
 
   const deleteNote = async (id) => {
@@ -73,13 +79,16 @@ const App = () => {
     setNewTag(false);
   };
 
-  const submitTag = async (data, noteId) => {
-    try {
-      await axios.post(urlFor(`notes/${noteId}/tags`), data);
-      setNote(noteId);
-    } catch (error) {
-      console.log('submitTag: ', error.response);
-    }
+  const submitTag = (data, noteId) => {
+    axios
+      .post(urlFor(`notes/${noteId}/tags`), data)
+      .then((res) => setNote(noteId))
+      .catch((err) => {
+        const { errors } = err.response.data;
+        if (errors.name) {
+          setError('Missing Tag Name!');
+        }
+      });
   };
 
   const deleteTag = async (noteId, id) => {
@@ -91,10 +100,14 @@ const App = () => {
     }
   };
 
+  const resetError = () => {
+    setError('');
+  };
+
   return (
     <div className="App">
       <Nav toggleNote={toggleNote} showNote={showNote} />
-      <Flash />
+      {error && <Flash error={error} resetError={resetError} />}
       {showNote ? (
         <Note
           note={note}
