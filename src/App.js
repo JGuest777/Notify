@@ -23,18 +23,17 @@ const App = () => {
       const resp = await axios.get(urlFor('notes'));
       setNotes(resp.data);
     } catch (error) {
-      console.log('getNotes: ', error.response);
+      console.log('getNotes fetch error: ', error.response);
     }
   };
 
   const getNote = async (id) => {
     try {
-      console.log('getNote');
       const resp = await axios.get(urlFor(`notes/${id}`));
       setShowNote(true);
       setNote(resp.data);
     } catch (error) {
-      console.log('getNote: ', error.response);
+      console.log('getNote fetch error: ', error.response);
     }
   };
 
@@ -48,14 +47,12 @@ const App = () => {
 
   const submitNote = (data, id) => {
     handleSubmitRequest(data, id)
-      .then((res) => showNote(false))
+      .then((res) => setShowNote(false))
       .catch((err) => {
         const { errors } = err.response.data;
         if (errors.content) {
-          console.log('Missing Note Content!');
           setError('Missing Note Content!');
         } else if (errors.title) {
-          console.log('Missing Title Content!');
           setError('Missing Title Content!');
         }
       });
@@ -67,7 +64,7 @@ const App = () => {
       await axios.delete(urlFor(`notes/${id}`));
       setNotes(newNotesState);
     } catch (error) {
-      console.log('deleteNote: ', error.response);
+      console.log('deleteNote delete error: ', error.response);
     }
   };
 
@@ -82,7 +79,7 @@ const App = () => {
   const submitTag = (data, noteId) => {
     axios
       .post(urlFor(`notes/${noteId}/tags`), data)
-      .then((res) => setNote(noteId))
+      .then((res) => getNote(noteId))
       .catch((err) => {
         const { errors } = err.response.data;
         if (errors.name) {
@@ -96,7 +93,7 @@ const App = () => {
       await axios.delete(urlFor(`tags/${id}`));
       getNote(noteId);
     } catch (error) {
-      console.log('deleteTag: ', error.response);
+      console.log('deleteTag delete error: ', error.response);
     }
   };
 
