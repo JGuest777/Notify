@@ -42,6 +42,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100vw;
+  position: fixed;
   height: 70px;
   background-color: #000;
   box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
@@ -50,6 +52,7 @@ body {
   font-family: 'Roboto', sans-serif;
   letter-spacing: 0.6px;
   border-top: 8px solid #c5a623;
+  z-index: 1;
 }
 
 @keyframes move {
@@ -96,14 +99,14 @@ body {
   padding: 10px;
   background-color: #fcd748;
   color: black;
-  float: right;
+  /* float: right; */
   font-size: 1.2em;
   border-radius: 20px;
   transition: all 0.2s ease-in;
   cursor: pointer;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
   position: absolute;
-  bottom: 40px;
+  /* bottom: 40px; */
   right: 40px;
   z-index: 10;
 }
@@ -515,7 +518,7 @@ body {
   flex-direction: row;
   flex-wrap: wrap;
   height: auto;
-  padding-top: 15px;
+  padding-top: 60px;
 }
 
 .flash-container {
