@@ -5,12 +5,14 @@ import List from './Components/List';
 import Note from './Components/Note';
 import axios from 'axios';
 import urlFor from './Utils/urlFor';
+import Flash from './Components/Flash';
 
 const App = () => {
   const [showNote, setShowNote] = useState(false);
   const [notes, setNotes] = useState([]);
   const [note, setNote] = useState({});
   const [newTag, setNewTag] = useState(false);
+  const [error, setError] = useState('');
 
   const toggleNote = () => {
     setShowNote(!showNote);
@@ -21,17 +23,18 @@ const App = () => {
       const resp = await axios.get(urlFor('notes'));
       setNotes(resp.data);
     } catch (error) {
-      console.log('error: ', error);
+      console.log('getNotes: ', error.response);
     }
   };
 
   const getNote = async (id) => {
     try {
+      console.log('getNote');
       const resp = await axios.get(urlFor(`notes/${id}`));
       setShowNote(true);
       setNote(resp.data);
     } catch (error) {
-      console.log('error: ', error);
+      console.log('getNote: ', error.response);
     }
   };
 
@@ -48,7 +51,7 @@ const App = () => {
       handleSubmitRequest(data, id);
       setShowNote(false);
     } catch (error) {
-      console.log('error: ', error);
+      console.log('submitNote: ', error.response);
     }
   };
 
@@ -58,7 +61,7 @@ const App = () => {
       await axios.delete(urlFor(`notes/${id}`));
       setNotes(newNotesState);
     } catch (error) {
-      console.log('error: ', error);
+      console.log('deleteNote: ', error.response);
     }
   };
 
@@ -75,7 +78,7 @@ const App = () => {
       await axios.post(urlFor(`notes/${noteId}/tags`), data);
       setNote(noteId);
     } catch (error) {
-      console.log('error: ', error);
+      console.log('submitTag: ', error.response);
     }
   };
 
@@ -84,13 +87,14 @@ const App = () => {
       await axios.delete(urlFor(`tags/${id}`));
       getNote(noteId);
     } catch (error) {
-      console.log('error: ', error);
+      console.log('deleteTag: ', error.response);
     }
   };
 
   return (
     <div className="App">
       <Nav toggleNote={toggleNote} showNote={showNote} />
+      <Flash />
       {showNote ? (
         <Note
           note={note}

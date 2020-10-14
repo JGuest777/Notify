@@ -4,7 +4,7 @@ import NoteCard from './NoteCard';
 const List = ({ getNotes, notes, getNote, deleteNote }) => {
   useEffect(() => {
     getNotes();
-  });
+  }, []);
 
   const cards = notes.map((note, index) => {
     return (
