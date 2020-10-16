@@ -63,6 +63,7 @@ const Note = ({
               type="text"
               placeholder="Tag Name.."
               value={tagText}
+              autoFocus={true}
               onChange={(e) => setTagText(e.target.value)}
             />
           </form>
