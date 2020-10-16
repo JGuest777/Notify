@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import App from './Components/App';
+import { NoteProvider } from './Context/NoteContext';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
-  <React.StrictMode>
+  <NoteProvider>
     <App />
-  </React.StrictMode>,
+  </NoteProvider>,
   document.getElementById('root')
 );
 

@@ -1,7 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import NoteCard from './NoteCard';
+import { NoteContext } from '../Context/NoteContext';
 
-const List = ({ getNotes, notes, getNote, deleteNote }) => {
+const List = ({ getNotes, getNote, deleteNote }) => {
+  const { notes } = useContext(NoteContext);
+
   useEffect(() => {
     getNotes();
   }, []);

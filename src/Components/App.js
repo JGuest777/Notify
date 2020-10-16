@@ -1,23 +1,35 @@
-import React, { useState } from 'react';
-import './App.css';
-import Nav from './Components/Nav';
-import List from './Components/List';
-import Note from './Components/Note';
+import React, { useContext } from 'react';
+import '../App.css';
+import Nav from './Nav';
+import List from './List';
+import Note from './Note';
 import axios from 'axios';
-import urlFor from './Utils/urlFor';
-import Flash from './Components/Flash';
+import urlFor from '../Utils/urlFor';
+import Flash from './Flash';
+import { NoteContext } from '../Context/NoteContext';
 
 const App = () => {
-  const [showNote, setShowNote] = useState(false);
-  const [notes, setNotes] = useState([]);
-  const [note, setNote] = useState({});
-  const [newTag, setNewTag] = useState(false);
-  const [error, setError] = useState('');
+  const {
+    showNote,
+    setShowNote,
+    notes,
+    setNotes,
+    setNote,
+    newTag,
+    setNewTag,
+    setNoteTitle,
+    setNoteText,
+    error,
+    setError,
+  } = useContext(NoteContext);
 
   const toggleNote = () => {
     setShowNote(!showNote);
     setNote({});
+    setNoteTitle('');
+    setNoteText('');
   };
+
   const getNotes = async () => {
     try {
       const resp = await axios.get(urlFor('notes'));
@@ -31,6 +43,8 @@ const App = () => {
     try {
       const resp = await axios.get(urlFor(`notes/${id}`));
       setShowNote(true);
+      setNoteTitle(resp.data.title);
+      setNoteText(resp.data.content);
       setNote(resp.data);
     } catch (error) {
       console.log('getNote fetch error: ', error.response);
@@ -50,10 +64,10 @@ const App = () => {
       .then((res) => setShowNote(false))
       .catch((err) => {
         const { errors } = err.response.data;
-        if (errors.content) {
-          setError('Missing Note Content!');
-        } else if (errors.title) {
-          setError('Missing Title Content!');
+        if (errors.title) {
+          setError('Missing Title!');
+        } else if (errors.content) {
+          setError('Missing Content!');
         }
       });
   };
@@ -107,7 +121,6 @@ const App = () => {
       {error && <Flash error={error} resetError={resetError} />}
       {showNote ? (
         <Note
-          note={note}
           submitNote={submitNote}
           showTagForm={showTagForm}
           newTag={newTag}
@@ -116,12 +129,7 @@ const App = () => {
           deleteTag={deleteTag}
         />
       ) : (
-        <List
-          getNotes={getNotes}
-          notes={notes}
-          getNote={getNote}
-          deleteNote={deleteNote}
-        />
+        <List getNotes={getNotes} getNote={getNote} deleteNote={deleteNote} />
       )}
     </div>
   );
